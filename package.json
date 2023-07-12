@@ -1,0 +1,39 @@
+{
+  "name": "qlee-utils",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:wuqiulee/qlee-utils.git",
+  "author": "wuqiulee",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
+    "@types/node": "^16.7.13",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "eslint": "^8.44.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "prettier": "^3.0.0",
+    "lint-staged": "^13.2.0",
+    "typescript": "^4.4.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "prettier --write",
+      "npm run lint",
+      "git add"
+    ]
+  }
+}
