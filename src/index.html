@@ -10,11 +10,18 @@
 <body>
   <script src="./utils.js"></script>
   <input type="text">
+  <button>取消</button>
   <script>
     const input = document.querySelector('input')
-    input.oninput = debounce(() => {
+    const btn = document.querySelector('button')
+    const deb = debounce(() => {
       console.log('first')
     }, 1000, 2)
+    input.oninput = deb
+    btn.onclick = () => {
+      console.log('cancal')
+      deb.cancal()
+    }
   </script>
 </body>
 

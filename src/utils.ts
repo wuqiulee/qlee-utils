@@ -32,5 +32,14 @@ function debounce(callback: Function, delay: number = 500, immediate: boolean = 
     }
   };
 
+  // 取消防抖
+  _debounce.cancal = () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = null;
+    locked = false;
+  };
+
   return _debounce;
 }
