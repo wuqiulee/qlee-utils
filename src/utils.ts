@@ -5,7 +5,12 @@
  * @param immediate {boolean} 是否立即执行
  * @returns
  */
-function debounce(callback: Function, delay: number = 500, immediate: boolean = false) {
+export function debounce(
+  callback: Function,
+  delay: number = 500,
+  immediate: boolean = false,
+  resultCallback?: Function,
+) {
   // 维护一个定时器, 保存上一次的定时器
   let timer: ReturnType<typeof setTimeout> | null = null;
   // 维护一把是否初次执行过的锁
@@ -19,13 +24,15 @@ function debounce(callback: Function, delay: number = 500, immediate: boolean = 
     }
     // 判断是否需要初次执行
     if (immediate && !locked) {
-      callback.apply(this, args);
+      const res = callback.apply(this, args);
+      resultCallback && resultCallback(res);
       // 初次执行锁上
       locked = true;
     } else {
       timer = setTimeout(() => {
         // 外部传入的真正要执行的函数
-        callback.apply(this, args);
+        const res = callback.apply(this, args);
+        resultCallback && resultCallback(res);
         // 执行结束后打开
         locked = false;
       }, delay);
