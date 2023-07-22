@@ -18,25 +18,29 @@ export function debounce(
 
   // 真正执行的函数
   const _debounce = function (...args: any[]) {
-    // 取消上一次的定时器
-    if (timer) {
-      clearTimeout(timer);
-    }
-    // 判断是否需要初次执行
-    if (immediate && !locked) {
-      const res = callback.apply(this, args);
-      resultCallback && resultCallback(res);
-      // 初次执行锁上
-      locked = true;
-    } else {
-      timer = setTimeout(() => {
-        // 外部传入的真正要执行的函数
+    return new Promise((resolve, reject) => {
+      // 取消上一次的定时器
+      if (timer) {
+        clearTimeout(timer);
+      }
+      // 判断是否需要初次执行
+      if (immediate && !locked) {
         const res = callback.apply(this, args);
         resultCallback && resultCallback(res);
-        // 执行结束后打开
-        locked = false;
-      }, delay);
-    }
+        resolve(res);
+        // 初次执行锁上
+        locked = true;
+      } else {
+        timer = setTimeout(() => {
+          // 外部传入的真正要执行的函数
+          const res = callback.apply(this, args);
+          resultCallback && resultCallback(res);
+          resolve(res);
+          // 执行结束后打开
+          locked = false;
+        }, delay);
+      }
+    });
   };
 
   // 取消防抖
